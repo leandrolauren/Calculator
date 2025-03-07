@@ -2,7 +2,6 @@
 
 A web application built with Next.js that calculates compound interest by consuming an external API. This project provides a user-friendly interface to input financial data and displays detailed results, including a monthly breakdown of investments and interest accumulation.
 
-![Calculator Preview](https://via.placeholder.com/600x400?text=Calculator+Preview) <!-- Replace with actual screenshot -->
 
 ## Features
 
