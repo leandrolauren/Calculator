@@ -19,7 +19,7 @@ export default function CalcJuros() {
 
             const formData = new FormData(event.currentTarget);
             const response = await fetch('https://cotacao.onrender.com/calculation', {
-                method: 'POST',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -31,7 +31,7 @@ export default function CalcJuros() {
                 })
             });
             const data = await response.json();
-            setResult(data);
+            setResult(data.data);
         }catch (err){
             setError(err instanceof Error ? err.message: "Erro desconhecido");
             setResult(null);
@@ -63,7 +63,8 @@ export default function CalcJuros() {
                     name="annual_interest" 
                     placeholder="Annual Interest %" 
                     required 
-                    step="0.01"    
+                    step="0.01"
+                    min="1"
                 />
                 <input 
                     type="number" 
@@ -84,7 +85,7 @@ export default function CalcJuros() {
             
             {error && <div className="error-message">{error}</div>}
 
-            {mounted && result && (
+            {result && (
                 <div>
                     <table>
                         <thead>
