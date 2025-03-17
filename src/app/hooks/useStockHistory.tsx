@@ -2,21 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-interface StockHistoryItem {
-  date: string;
-  close: number;
-}
-
-interface Pagination {
-  total_pages: number;
-  current_page: number;
-}
-
-interface ApiResponse {
-  data: StockHistoryItem[];
-  pagination: Pagination;
-}
+import { StockHistoryItem, ApiResponse } from "../interfaces/models";
 
 export const useStockHistory = (ticker: string) => {
   const [historyData, setHistoryData] = useState<StockHistoryItem[] | null>(null);
@@ -41,12 +27,9 @@ export const useStockHistory = (ticker: string) => {
             }
           });
 
-          // Verificação de tipo seguro
-          if (response.data?.data && response.data?.pagination) {
-            allData = [...allData, ...response.data.data];
-            totalPages = response.data.pagination.total_pages;
-            page++;
-          }
+          allData = [...allData, ...response.data.data];
+          totalPages = response.data.pagination.total_pages;
+          page++;
         } while (page <= totalPages);
 
         setHistoryData(allData);

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useStockHistory } from '../hooks/useStockHistory';
-import type { StockData } from '../interfaces/interface';
+import type { StockCardProps } from '../interfaces/models';
 import dynamic from 'next/dynamic';
 import { Chart, registerables } from 'chart.js';
 import type { ChartOptions } from 'chart.js';
@@ -10,16 +10,6 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import LoadingSpinner from './LoadingSpinner';
 
 Chart.register(...registerables, ChartDataLabels);
-
-interface StockHistoryItem {
-  date: string;
-  close: number;
-}
-
-interface StockCardProps {
-  ticker?: string;
-  data?: Partial<StockData>;
-}
 
 const Line = dynamic(
   () => import('react-chartjs-2').then((mod) => mod.Line),
@@ -54,7 +44,7 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
     labels: safeHistoryData.map((item) => new Date(item.date).toLocaleDateString()),
     datasets: [
       {
-        label: 'Preço de Fechamento',
+        label: 'Close Price',
         data: safeHistoryData.map((item) => item.close),
         borderColor: 'rgba(88, 207, 187, 0.8)',
         backgroundColor: 'rgba(88, 207, 187, 0.1)',
@@ -86,6 +76,10 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
           callback: (value) => `$${Number(value).toFixed(2)}`
         }
       }
+    },
+    interaction:{
+      intersect: false,
+      mode: 'index'
     },
     plugins: {
       legend: { display: false },
@@ -119,9 +113,9 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
         <button 
           className="history-button"
           onClick={() => setShowHistory(!showHistory)}
-          aria-label={showHistory ? 'Ocultar histórico' : 'Mostrar histórico'}
+          aria-label={showHistory ? 'Hide History' : 'Show History'}
         >
-          {showHistory ? 'Ocultar Histórico' : 'Mostrar Histórico'}
+          {showHistory ? 'Hide History' : 'Show History'}
         </button>
       </div>
 
@@ -132,24 +126,24 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
 
       <div className="stock-info">
         {[
-          { label: 'Indústria', value: industry },
-          { label: 'Setor', value: sector },
+          { label: 'Industry', value: industry },
+          { label: 'Sector', value: sector },
           { 
-            label: 'Margem Bruta', 
+            label: 'Gross Margin', 
             value: `${grossMargin >= 0 ? '+' : ''}${grossMargin.toFixed(2)}%`,
             style: getValueStyle(grossMargin)
           },
           { 
-            label: 'Margem Líquida', 
+            label: 'Net Margin', 
             value: `${netMargin >= 0 ? '+' : ''}${netMargin.toFixed(2)}%`,
             style: getValueStyle(netMargin)
           },
           { 
-            label: 'P/L', 
+            label: 'P/E', 
             value: priceEarning.toFixed(2)
           },
           { 
-            label: 'Variação', 
+            label: 'Variation', 
             value: `${variation >= 0 ? '+' : ''}${variation.toFixed(2)}%`,
             style: getValueStyle(variation)
           }
@@ -164,11 +158,11 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
       </div>
 
       {showHistory && (
-        <div className="chart-container" style={{ height: '400px', position: 'relative' }}>
+        <div className="chart-container" style={{ height: '300px', width: '300px', position: 'relative' }}>
           {isLoadingHistory ? (
             <div className="chart-loading">
               <LoadingSpinner />
-              <p>Carregando histórico...</p>
+              <p>Loading History...</p>
             </div>
           ) : (
             <>
@@ -182,7 +176,7 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
                 />
               ) : (
                 <div className="chart-empty">
-                  Nenhum dado histórico disponível
+                  No data available
                 </div>
               )}
             </>

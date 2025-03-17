@@ -5,7 +5,6 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import Loading from '../components/Loading';
 
-// Carregamento dinâmico com fallback de loading
 const StockList = dynamic(() => import('../components/StockList'), {
   ssr: false,
   loading: () => <Loading />
