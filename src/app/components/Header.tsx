@@ -13,6 +13,9 @@ export function Header(){
                         <li>
                             <Link href={"/calculator"}>Calculator</Link>
                         </li>
+                        <li>
+                            <Link href={"/stock"}>Stock</Link>
+                        </li>
                     </ul>
                 </nav>
             </div>
