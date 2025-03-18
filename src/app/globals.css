@@ -14,7 +14,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #5c5c5c;
+    --background: #2b2b2b;
     --foreground: #ededed;
   }
 }
@@ -103,23 +103,9 @@ table tbody td {
   border: 1px solid #dc3545;
 }
 
-.stock-list {
-  display: grid;
-  grid-template-columns: 2, 1fr;
-  gap: 10px;
-  padding: 10px;
-}
-
-.stock-card {
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .stock-card h3 {
   margin: 0 0 10px 0;
-  color: #333333;
+  color: #ffffff;
 }
 
 .stock-card p {
@@ -141,7 +127,8 @@ table tbody td {
 }
 
 .chart-container {
-  max-width: 800px;
+  max-width: 100%;
+  min-width: 100%;
   margin: 10px auto;
   padding: 5px;
   background: rgb(0, 0, 0);
@@ -154,56 +141,21 @@ table tbody td {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
+  gap: 5px;
 }
 
-.search-container {
-  margin-bottom: 5px;
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.search-container input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-.search-container input.error {
-  border-color: #ff4444;
-}
-
-
-.search-container button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
 
 .search-container button:hover {
   background-color: #0056b3;
 }
 
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
 .stock-card {
   position: relative;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(150, 150, 150, 0.363);
   border-radius: 4px;
   padding: 20px;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: rgba(255, 255, 255, 0.226);
+  box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
   transition: transform 0.2s;
 }
 
@@ -215,19 +167,21 @@ table tbody td {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  margin-bottom: 15px;
-  gap: 10px;
+  margin-bottom: 1.2rem;
+  gap: 2%;
 }
 
 .stock-header h3 {
   margin: 0;
-  color: #333;
+  font-size: 1.2em;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .price {
   font-size: 1.2em;
   font-weight: bold;
-  color: #28a745;
+  color: #83baf5;
   
 }
 
@@ -250,11 +204,11 @@ table tbody td {
 }
 
 .positive {
-  color: #28a745;
+  color: #97ffb0;
 }
 
 .negative {
-  color: #dc3545;
+  color: #ff8f9a;
 }
 
 .card-actions {

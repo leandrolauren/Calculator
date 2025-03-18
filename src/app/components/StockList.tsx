@@ -91,10 +91,8 @@ const StockList = () => {
             onChange={setSearchTicker}
             error={searchError || searchEqual}
           />
-          <div className="error-messages">
             {searchError && <span className="error-message">Ticker not found!</span>}
             {searchEqual && <span className="error-message">Ticker already consulted!</span>}
-          </div>
         </div>
         <button 
           onClick={handleSearch} 
