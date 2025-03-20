@@ -3,8 +3,8 @@ services:
     name: calculator
     env: node
     rootDir: .
-    buildCommand: npm install && npm run build
-    startCommand: npm start
+    buildCommand: npm ci && npm run build
+    startCommand: PORT=$PORT npm start
     publishDir: .next
     envVars:
       - key: NODE_ENV
