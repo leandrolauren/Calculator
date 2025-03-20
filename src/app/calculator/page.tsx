@@ -1,15 +1,10 @@
 'use client';
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 
 export default function CalcJuros() {        
     const [result, setResult] = useState<any>(null);
-    const [mounted, setMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     async function onSubmit(event: FormEvent<HTMLFormElement>){
         event.preventDefault();
