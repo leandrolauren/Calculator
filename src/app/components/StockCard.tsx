@@ -9,6 +9,7 @@ import type { ChartOptions } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import LoadingSpinner from './LoadingSpinner';
 
+// Registre os componentes e plugins necessários do Chart.js
 Chart.register(...registerables, ChartDataLabels);
 
 const Line = dynamic(
@@ -25,7 +26,7 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
   const { historyData, isLoadingHistory } = useStockHistory(ticker);
   
   useEffect(() => {
-    if(showHistory) setChartKey(Date.now());
+    if (showHistory) setChartKey(Date.now());
   }, [showHistory]);
 
   const safeHistoryData = historyData || [];
@@ -48,7 +49,7 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
         data: safeHistoryData.map((item) => item.close),
         borderColor: 'rgba(88, 207, 187, 0.8)',
         backgroundColor: 'rgba(88, 207, 187, 0.1)',
-        tension: 0.1,
+        tension: 1, 
         pointRadius: 2,
         pointHoverRadius: 5,
         borderWidth: 2
@@ -59,10 +60,7 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
   const chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
-    animation: {
-      duration: 500,
-      easing: 'easeInOutQuad' 
-    },
+    animation: false, 
     scales: {
       x: {
         display: false,
@@ -77,7 +75,7 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
         }
       }
     },
-    interaction:{
+    interaction: {
       intersect: false,
       mode: 'index'
     },
@@ -96,11 +94,12 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
         }
       },
       datalabels: { display: false }
-    }, elements: {
-        point: {
+    },
+    elements: {
+      point: {
         radius: 0, 
         hoverRadius: 5 
-    }
+      }
     }
   };
 
