@@ -49,7 +49,7 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
         data: safeHistoryData.map((item) => item.close),
         borderColor: 'rgba(88, 207, 187, 0.8)',
         backgroundColor: 'rgba(88, 207, 187, 0.1)',
-        tension: 1, 
+        tension: 0, 
         pointRadius: 2,
         pointHoverRadius: 5,
         borderWidth: 2
