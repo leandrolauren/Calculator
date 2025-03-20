@@ -5,9 +5,7 @@ const nextConfig = {
     PORT: process.env.PORT,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
-  experimental: {
-    outputStandalone: true
-  }
-}
+  experimental: {},
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
