@@ -11,10 +11,14 @@ const StockList = dynamic(() => import('../components/StockList'), {
 });
 
 const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
-  
+
   .search-container {
     display: flex;
     gap: 1rem;
@@ -48,19 +52,78 @@ const PageContainer = styled.div`
     }
   }
 
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 1rem 0;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .card {
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+
+    .card-label {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
+      cursor: pointer;
+
+      &:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .tooltip {
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        color: #fff;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        z-index: 10;
+        transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+
+      }
+    }
+
+    .card-value {
+      font-size: 1rem;
+      color: #333333;
+      word-break: break-word;
+    }
+  }
+
   .error-messages {
     position: absolute;
     bottom: -25px;
     left: 0;
     color: #ff4444;
     font-size: 0.9rem;
-  }
-
-  .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 1rem 0;
   }
 
   .loading-dots {
