@@ -119,7 +119,20 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
       </div>
 
       <div className="stock-header">
-        <h3>{ticker || 'N/A'}</h3>
+        <h3 className="label-container">
+          {ticker || 'N/A'}
+          {ticker && (
+            <div className="tooltip">
+              <a 
+                href={`https://finance.yahoo.com/quote/${ticker}/`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                Search {ticker} on Yahoo Finance
+              </a>
+            </div>
+          )}
+        </h3>
         <span className="price">${currentPrice.toFixed(2)}</span>
       </div>
 
@@ -130,25 +143,38 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
           { 
             label: 'Gross Margin', 
             value: `${grossMargin >= 0 ? '+' : ''}${grossMargin.toFixed(2)}%`,
-            style: getValueStyle(grossMargin)
+            style: getValueStyle(grossMargin),
+            tooltip: 'Gross margin represents the percentage of revenue that exceeds the cost of goods sold.'
           },
           { 
             label: 'Net Margin', 
             value: `${netMargin >= 0 ? '+' : ''}${netMargin.toFixed(2)}%`,
-            style: getValueStyle(netMargin)
+            style: getValueStyle(netMargin),
+            tooltip: 'Net margin is the percentage of revenue left after all expenses are deducted.'
           },
           { 
             label: 'P/E', 
-            value: priceEarning.toFixed(2)
+            value: priceEarning.toFixed(2),
+            tooltip: 'Price-to-Earnings ratio indicates the valuation of the company.'
           },
           { 
             label: 'Variation', 
             value: `${variation >= 0 ? '+' : ''}${variation.toFixed(2)}%`,
-            style: getValueStyle(variation)
+            style: getValueStyle(variation),
+            tooltip: "Variation represents the percentage change in the stock price over a specific period."
           }
         ].map((item, index) => (
           <div key={index} className="info-item">
-            <span>{item.label}</span>
+            <div className="label-container">
+              <span className="label">
+                {item.label}
+                {item.tooltip && (
+                  <div className="tooltip">
+                    {item.tooltip}
+                  </div>
+                )}
+              </span>
+            </div>
             <span className={item.style || ''}>
               {item.value || 'N/A'}
             </span>
