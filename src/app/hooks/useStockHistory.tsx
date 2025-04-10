@@ -15,7 +15,7 @@ export const useStockHistory = (ticker: string) => {
     if (!ticker) return
 
     const fetchData = async () => {
-      const token = await getToken()
+      const tokenfetched = await getToken()
       setIsLoadingHistory(true)
       let allData: StockHistoryItem[] = []
       let page = 1
@@ -27,7 +27,7 @@ export const useStockHistory = (ticker: string) => {
             'https://cotacao.onrender.com/history',
             {
               headers: {
-                Authorization: `Bearer ${token}`, // Enviar o token no cabeçalho
+                Authorization: tokenfetched,
               },
               params: {
                 ticker: ticker,
