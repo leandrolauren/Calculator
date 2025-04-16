@@ -2,8 +2,16 @@
 
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 import { StockHistoryItem, ApiResponse } from '../interfaces/models'
-import getToken from './getToken'
+
+const getToken = async () => {
+  const token = Cookies.get('authToken')
+  if (!token) {
+    throw new Error('User is not authenticated')
+  }
+  return token
+}
 
 export const useStockHistory = (ticker: string) => {
   const [historyData, setHistoryData] = useState<StockHistoryItem[] | null>(
@@ -15,7 +23,7 @@ export const useStockHistory = (ticker: string) => {
     if (!ticker) return
 
     const fetchData = async () => {
-      const tokenfetched = await getToken()
+      const token = await getToken()
       setIsLoadingHistory(true)
       let allData: StockHistoryItem[] = []
       let page = 1
@@ -27,7 +35,7 @@ export const useStockHistory = (ticker: string) => {
             'https://cotacao.onrender.com/history',
             {
               headers: {
-                Authorization: tokenfetched,
+                Authorization: `Bearer ${token}`,
               },
               params: {
                 ticker: ticker,
