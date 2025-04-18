@@ -30,7 +30,7 @@ export default function CalcJuros() {
       }
 
       const formData = new FormData(form)
-      const response = await fetch('http://localhost:8000/calculation', {
+      const response = await fetch('https://cotacao.onrender.com/calculation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

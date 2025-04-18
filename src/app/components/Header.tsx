@@ -1,21 +1,19 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-export function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+interface HeaderProps {
+  isLoggedIn: boolean
+}
 
-  useEffect(() => {
-    const tokenExists = document.cookie.includes('access_token=')
-    setIsLoggedIn(tokenExists)
-  }, [])
+export function Header({ isLoggedIn }: HeaderProps) {
+  const router = useRouter()
 
   const handleLogout = () => {
     document.cookie = 'access_token=; max-age=0'
     document.cookie = 'token_type=; max-age=0'
-    setIsLoggedIn(false)
-    window.location.reload() // Reload the page to reflect logout
+    router.push('/') // Redirect to the login page
   }
 
   return (
@@ -23,13 +21,15 @@ export function Header() {
       <div className="flex items-center justify-between w-full mx-auto max-w-7x1">
         <div className="flex items-center gap-2">
           <img src="/logo.png" alt="Logo" className="w-8 h-8" />
-          <span>Leandro - NextJS</span>
+          <span>
+            <Link href={'/home'}>Leandro - NextJS</Link>
+          </span>
         </div>
         {isLoggedIn && (
           <nav className="flex items-center gap-4">
             <ul className="flex items-center justify-center gap-2">
               <li>
-                <Link href={'/'}>Home</Link>
+                <Link href={'/home'}>Home</Link>
               </li>
               <li>
                 <Link href={'/calculator'}>Calculator</Link>
