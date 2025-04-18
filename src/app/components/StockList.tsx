@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 import { Stock } from '../interfaces/models'
 import StockCard from './StockCard'
 import SearchInput from './SearchInput'
-import getToken from '../hooks/getToken'
 
 const StockList = () => {
   const [searchTicker, setSearchTicker] = useState('')
@@ -15,12 +14,20 @@ const StockList = () => {
 
   const fetchStockData = async (ticker: string) => {
     try {
-      const tokenFetched = await getToken()
+      const token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('access_token='))
+        ?.split('=')[1]
+      const tokenType = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('token_type='))
+        ?.split('=')[1]
+
       const response = await fetch(
         `https://cotacao.onrender.com/stock/${ticker}`,
         {
           headers: {
-            Authorization: tokenFetched,
+            Authorization: `${tokenType} ${token}`,
           },
         },
       )

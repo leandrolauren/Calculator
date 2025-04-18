@@ -1,8 +1,7 @@
 'use client'
 
 import { FormEvent, useState } from 'react'
-import getToken from '../hooks/getToken'
-import { get } from 'http'
+import { getToken } from '../hooks/getToken'
 
 export default function CalcJuros() {
   const [result, setResult] = useState<any>(null)
@@ -14,13 +13,28 @@ export default function CalcJuros() {
 
     try {
       const form = event.currentTarget as HTMLFormElement
-      const tokenfetched = await getToken()
+
+      // Ensure tokens are available
+      const token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('access_token='))
+        ?.split('=')[1]
+      const tokenType = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('token_type='))
+        ?.split('=')[1]
+
+      if (!token || !tokenType) {
+        // Fetch new tokens if missing
+        await getToken()
+      }
+
       const formData = new FormData(form)
-      const response = await fetch('https://cotacao.onrender.com/calculation', {
+      const response = await fetch('http://localhost:8000/calculation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: tokenfetched,
+          Authorization: `${tokenType} ${token}`,
         },
         body: JSON.stringify({
           initial_value: formData.get('initial_value'),
@@ -29,6 +43,11 @@ export default function CalcJuros() {
           monthly_contribution: formData.get('monthly_contribution'),
         }),
       })
+
+      if (!response.ok) {
+        throw new Error(`Failed to calculate, message: ${response.statusText}`)
+      }
+
       const data = await response.json()
       setResult(data.data)
     } catch (err) {

@@ -1,5 +1,7 @@
 'use server'
 
+import Cookies from 'js-cookie'
+
 const user = process.env.API_USERNAME || ''
 const password = process.env.API_PASSWORD || ''
 
@@ -25,8 +27,14 @@ const getToken = async () => {
   }
 
   const data = await response.json()
-
   const token = data.access_token
+  const tokenType = data.token_type
+
+  // Store token in cookies with expiration of 7 days
+  Cookies.set('access_token', token, { expires: 7 }) // 7 days
+  Cookies.set('token_type', tokenType, { expires: 7 }) // 7 days
+
   return token
 }
-export default getToken
+
+export { getToken }
