@@ -21,7 +21,7 @@ const getToken = async () => {
   })
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch token: ${response.statusText}`)
+    throw new Error(`Failed to fetch token, message: ${response.statusText}`)
   }
 
   const data = await response.json()
