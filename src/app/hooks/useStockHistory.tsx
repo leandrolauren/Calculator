@@ -30,7 +30,7 @@ export const useStockHistory = (ticker: string) => {
         setIsLoadingHistory(true)
         let allData: StockHistoryItem[] = []
         let page = 1
-        const maxPages = 4 // Limit to 4 pages (400 records)
+        const maxPages = 4
 
         while (page <= maxPages) {
           const response = await axios.get<ApiResponse>(
