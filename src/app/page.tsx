@@ -36,15 +36,14 @@ export default function LoginPage() {
       const token = data.access_token
       const tokenType = data.token_type
 
-      // Store token in cookies
-      document.cookie = `access_token=${token}; max-age=604800` // 7 days
+      document.cookie = `access_token=${token}; max-age=604800` 
       document.cookie = `token_type=${tokenType}; max-age=604800`
 
-      router.push('/home') // Redirect to home page
+      router.push('/home') 
     } catch (err: any) {
       setError(err.message)
     } finally {
-      setIsLoading(false) // Stop loading
+      setIsLoading(false) 
     }
   }
 
