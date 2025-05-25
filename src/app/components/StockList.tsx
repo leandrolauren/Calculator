@@ -4,13 +4,23 @@ import { Stock } from '../interfaces/models'
 import StockCard from './StockCard'
 import SearchInput from './SearchInput'
 
+const LOCAL_STORAGE_KEY = 'stocksList'
+
 const StockList = () => {
   const [searchTicker, setSearchTicker] = useState('')
-  const [stocksList, setStocksList] = useState<Stock[]>([])
+  const [stocksList, setStocksList] = useState<Stock[]>(() => {
+    const cached = localStorage.getItem(LOCAL_STORAGE_KEY)
+    return cached ? JSON.parse(cached) : []
+  })
+
   const [searchError, setSearchError] = useState(false)
   const [searchEqual, setSearchEqual] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stocksList))
+  }, [stocksList])
 
   const fetchStockData = async (ticker: string) => {
     try {

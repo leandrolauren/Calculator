@@ -31,8 +31,8 @@ const getToken = async () => {
   const tokenType = data.token_type
 
   // Store token in cookies with expiration of 7 days
-  Cookies.set('access_token', token, { expires: 7 }) // 7 days
-  Cookies.set('token_type', tokenType, { expires: 7 }) // 7 days
+  Cookies.set('access_token', token)
+  Cookies.set('token_type', tokenType)
 
   return token
 }

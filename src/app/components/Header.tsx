@@ -13,6 +13,8 @@ export function Header({ isLoggedIn }: HeaderProps) {
   const handleLogout = () => {
     document.cookie = 'access_token=; max-age=0'
     document.cookie = 'token_type=; max-age=0'
+    localStorage.removeItem('calculatorData')
+    localStorage.removeItem('stocksList')
     router.push('/') // Redirect to the login page
   }
 
