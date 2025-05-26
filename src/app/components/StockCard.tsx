@@ -1,36 +1,39 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import { useStockHistory } from '../hooks/useStockHistory';
-import type { StockCardProps } from '../interfaces/models';
-import dynamic from 'next/dynamic';
-import { Chart, registerables } from 'chart.js';
-import type { ChartOptions } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import LoadingSpinner from './LoadingSpinner';
+import { useState, useEffect } from 'react'
+import { useStockHistory } from '../hooks/useStockHistory'
+import type { StockCardProps } from '../interfaces/models'
+import dynamic from 'next/dynamic'
+import { Chart, registerables } from 'chart.js'
+import type { ChartOptions } from 'chart.js'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
+import LoadingSpinner from './LoadingSpinner'
 
 // Registre os componentes e plugins necessários do Chart.js
-Chart.register(...registerables, ChartDataLabels);
+Chart.register(...registerables, ChartDataLabels)
 
-const Line = dynamic(
-  () => import('react-chartjs-2').then((mod) => mod.Line),
-  { 
-    ssr: false,
-    loading: () => <div className="chart-loading"><LoadingSpinner /></div>
-  }
-);
+const Line = dynamic(() => import('react-chartjs-2').then((mod) => mod.Line), {
+  ssr: false,
+  loading: () => (
+    <div className="chart-loading">
+      <LoadingSpinner />
+    </div>
+  ),
+})
 
 const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
-  const [showHistory, setShowHistory] = useState(false);
-  const [chartKey, setChartKey] = useState(Date.now());
-  const { historyData, isLoadingHistory } = useStockHistory(ticker);
-  
-  useEffect(() => {
-    if (showHistory) setChartKey(Date.now());
-  }, [showHistory]);
+  const [showHistory, setShowHistory] = useState(false)
+  const [chartKey, setChartKey] = useState(Date.now())
+  const { historyData, isLoadingHistory } = useStockHistory(
+    showHistory ? ticker : '',
+  )
 
-  const safeHistoryData = historyData || [];
-  
+  useEffect(() => {
+    if (showHistory) setChartKey(Date.now())
+  }, [showHistory])
+
+  const safeHistoryData = historyData || []
+
   const {
     currentPrice = 0,
     industry = '',
@@ -38,29 +41,31 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
     grossMargin = 0,
     netMargin = 0,
     priceEarning = 0,
-    variation = 0
-  } = data;
+    variation = 0,
+  } = data
 
   const chartData = {
-    labels: safeHistoryData.map((item) => new Date(item.date).toLocaleDateString()),
+    labels: safeHistoryData.map((item) =>
+      new Date(item.date).toLocaleDateString(),
+    ),
     datasets: [
       {
         label: 'Close Price',
         data: safeHistoryData.map((item) => item.close),
         borderColor: 'rgba(88, 207, 187, 0.8)',
         backgroundColor: 'rgba(88, 207, 187, 0.1)',
-        tension: 0, 
+        tension: 0,
         pointRadius: 2,
         pointHoverRadius: 5,
-        borderWidth: 2
-      }
-    ]
-  };
+        borderWidth: 2,
+      },
+    ],
+  }
 
   const chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
-    animation: false, 
+    animation: false,
     scales: {
       x: {
         display: false,
@@ -69,15 +74,15 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
       y: {
         display: true,
         grid: { color: 'rgba(255, 255, 255, 0.41)' },
-        ticks: { 
+        ticks: {
           color: '#ccc',
-          callback: (value) => `$${Number(value).toFixed(2)}`
-        }
-      }
+          callback: (value) => `$${Number(value).toFixed(2)}`,
+        },
+      },
     },
     interaction: {
       intersect: false,
-      mode: 'index'
+      mode: 'index',
     },
     plugins: {
       legend: { display: false },
@@ -87,29 +92,29 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
         backgroundColor: 'rgba(250, 249, 249, 0.8)',
         callbacks: {
           label: (context) => {
-            const label = context.dataset.label || '';
-            const value = context.parsed.y || 0;
-            return `${label}: $${value.toFixed(2)}`;
-          }
-        }
+            const label = context.dataset.label || ''
+            const value = context.parsed.y || 0
+            return `${label}: $${value.toFixed(2)}`
+          },
+        },
       },
-      datalabels: { display: false }
+      datalabels: { display: false },
     },
     elements: {
       point: {
-        radius: 0, 
-        hoverRadius: 5 
-      }
-    }
-  };
+        radius: 0,
+        hoverRadius: 5,
+      },
+    },
+  }
 
-  const getValueStyle = (value: number) => 
-    value >= 0 ? 'positive' : 'negative';
+  const getValueStyle = (value: number) =>
+    value >= 0 ? 'positive' : 'negative'
 
   return (
     <div className="stock-card">
       <div className="card-actions">
-        <button 
+        <button
           className="history-button"
           onClick={() => setShowHistory(!showHistory)}
           aria-label={showHistory ? 'Hide History' : 'Show History'}
@@ -123,9 +128,9 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
           {ticker || 'N/A'}
           {ticker && (
             <div className="tooltip">
-              <a 
-                href={`https://finance.yahoo.com/quote/${ticker}/`} 
-                target="_blank" 
+              <a
+                href={`https://finance.yahoo.com/quote/${ticker}/`}
+                target="_blank"
                 rel="noopener noreferrer"
               >
                 Search {ticker} on Yahoo Finance
@@ -140,50 +145,51 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
         {[
           { label: 'Industry', value: industry },
           { label: 'Sector', value: sector },
-          { 
-            label: 'Gross Margin', 
+          {
+            label: 'Gross Margin',
             value: `${grossMargin >= 0 ? '+' : ''}${grossMargin.toFixed(2)}%`,
             style: getValueStyle(grossMargin),
-            tooltip: 'Gross margin represents the percentage of revenue that exceeds the cost of goods sold.'
+            tooltip:
+              'Gross margin represents the percentage of revenue that exceeds the cost of goods sold.',
           },
-          { 
-            label: 'Net Margin', 
+          {
+            label: 'Net Margin',
             value: `${netMargin >= 0 ? '+' : ''}${netMargin.toFixed(2)}%`,
             style: getValueStyle(netMargin),
-            tooltip: 'Net margin is the percentage of revenue left after all expenses are deducted.'
+            tooltip:
+              'Net margin is the percentage of revenue left after all expenses are deducted.',
           },
-          { 
-            label: 'P/E', 
+          {
+            label: 'P/E',
             value: priceEarning.toFixed(2),
-            tooltip: 'Price-to-Earnings ratio indicates the valuation of the company.'
+            tooltip:
+              'Price-to-Earnings ratio indicates the valuation of the company.',
           },
-          { 
-            label: 'Variation', 
+          {
+            label: 'Variation',
             value: `${variation >= 0 ? '+' : ''}${variation.toFixed(2)}%`,
             style: getValueStyle(variation),
-            tooltip: "Variation represents the percentage change in the stock price over a specific period."
-          }
+            tooltip:
+              'Variation represents the percentage change in the stock price over a specific period.',
+          },
         ].map((item, index) => (
           <div key={index} className="info-item">
             <div className="label-container">
               <span className="label">
                 {item.label}
-                {item.tooltip && (
-                  <div className="tooltip">
-                    {item.tooltip}
-                  </div>
-                )}
+                {item.tooltip && <div className="tooltip">{item.tooltip}</div>}
               </span>
             </div>
-            <span className={item.style || ''}>
-              {item.value || 'N/A'}
-            </span>
+            <span className={item.style || ''}>{item.value || 'N/A'}</span>
           </div>
         ))}
       </div>
 
       {showHistory && (
-        <div className="chart-container" style={{ height: '300px', width: '300px', position: 'relative' }}>
+        <div
+          className="chart-container"
+          style={{ height: '300px', width: '300px', position: 'relative' }}
+        >
           {isLoadingHistory ? (
             <div className="chart-loading">
               <LoadingSpinner />
@@ -200,16 +206,14 @@ const StockCard = ({ ticker = '', data = {} }: StockCardProps) => {
                   data-testid="stock-chart"
                 />
               ) : (
-                <div className="chart-empty">
-                  No data available
-                </div>
+                <div className="chart-empty">No data available</div>
               )}
             </>
           )}
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default StockCard;
+export default StockCard
