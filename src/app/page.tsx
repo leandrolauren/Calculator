@@ -36,14 +36,14 @@ export default function LoginPage() {
       const token = data.access_token
       const tokenType = data.token_type
 
-      document.cookie = `access_token=${token}; max-age=604800` 
-      document.cookie = `token_type=${tokenType}; max-age=604800`
+      document.cookie = `access_token=${token}`
+      document.cookie = `token_type=${tokenType}`
 
-      router.push('/home') 
+      router.push('/home')
     } catch (err: any) {
       setError(err.message)
     } finally {
-      setIsLoading(false) 
+      setIsLoading(false)
     }
   }
 
@@ -140,8 +140,9 @@ const StyledWrapper = styled.div`
     width: 100%;
     border: none;
     border-bottom: 1px solid #6c6c6c;
-    background: transparent;
-    color: #ffffff;
+    background: var(--input-bg);
+    color: var(--input-text);
+    transition: background 0.2s, color 0.2s;
   }
 
   .main-input:focus {
@@ -150,7 +151,8 @@ const StyledWrapper = styled.div`
   }
 
   .lebal-email {
-    color: #999999;
+    color: var(--input-text);
+    opacity: 0.7;
     font-size: 18px;
     font-weight: normal;
     position: absolute;

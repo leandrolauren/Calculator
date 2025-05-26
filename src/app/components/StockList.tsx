@@ -9,14 +9,21 @@ const LOCAL_STORAGE_KEY = 'stocksList'
 const StockList = () => {
   const [searchTicker, setSearchTicker] = useState('')
   const [stocksList, setStocksList] = useState<Stock[]>(() => {
-    const cached = localStorage.getItem(LOCAL_STORAGE_KEY)
-    return cached ? JSON.parse(cached) : []
+    if (typeof window !== 'undefined') {
+      const cached = localStorage.getItem(LOCAL_STORAGE_KEY)
+      return cached ? JSON.parse(cached) : []
+    }
+    return []
   })
-
   const [searchError, setSearchError] = useState(false)
   const [searchEqual, setSearchEqual] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const cached = localStorage.getItem(LOCAL_STORAGE_KEY)
+    if (cached) setStocksList(JSON.parse(cached))
+  }, [])
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(stocksList))

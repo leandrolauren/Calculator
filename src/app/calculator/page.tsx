@@ -7,12 +7,14 @@ import CircularProgress from '@mui/material/CircularProgress'
 const LOCAL_STORAGE_KEY = 'calculatorData'
 
 export default function CalcJuros() {
-  const [result, setResult] = useState<any>(() => {
-    const cached = localStorage.getItem(LOCAL_STORAGE_KEY)
-    return cached ? JSON.parse(cached) : null
-  })
+  const [result, setResult] = useState<any>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const cached = localStorage.getItem(LOCAL_STORAGE_KEY)
+    if (cached) setResult(JSON.parse(cached))
+  }, [])
 
   useEffect(() => {
     if (result) {

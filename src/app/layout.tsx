@@ -4,6 +4,7 @@ import './globals.css'
 import { Header } from '../app/components/Header'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { ThemeProvider } from './contexts/ThemeContext'
 
 export default function RootLayout({
   children,
@@ -30,9 +31,11 @@ export default function RootLayout({
 
   return (
     <html lang="pt-BR">
-      <body className="antialiased __variable_4d318d __variable_ea5f4b">
-        {!isLoginPage && isLoggedIn && <Header isLoggedIn={isLoggedIn} />}
-        {children}
+      <body>
+        <ThemeProvider>
+          {!isLoginPage && isLoggedIn && <Header isLoggedIn={isLoggedIn} />}
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
