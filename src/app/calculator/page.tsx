@@ -1,7 +1,6 @@
 'use client'
 
 import { FormEvent, useEffect, useState } from 'react'
-import { getToken } from '../hooks/getToken'
 import CircularProgress from '@mui/material/CircularProgress'
 
 const LOCAL_STORAGE_KEY = 'calculatorData'
@@ -39,11 +38,6 @@ export default function CalcJuros() {
         .split('; ')
         .find((row) => row.startsWith('token_type='))
         ?.split('=')[1]
-
-      if (!token || !tokenType) {
-        // Fetch new tokens if missing
-        await getToken()
-      }
 
       const formData = new FormData(form)
       const response = await fetch('https://cotacao.onrender.com/calculation', {
