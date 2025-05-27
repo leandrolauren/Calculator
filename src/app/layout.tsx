@@ -5,6 +5,7 @@ import { Header } from '../app/components/Header'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ThemeProvider } from './contexts/ThemeContext'
+import { StyledComponentsRegistry } from './styled-components-provider'
 
 export default function RootLayout({
   children,
@@ -30,13 +31,15 @@ export default function RootLayout({
   const isLoginPage = pathname === '/'
 
   return (
-    <html lang="pt-BR">
-      <body>
-        <ThemeProvider>
-          {!isLoginPage && isLoggedIn && <Header isLoggedIn={isLoggedIn} />}
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
+    <StyledComponentsRegistry>
+      <html lang="pt-BR">
+        <body>
+          <ThemeProvider>
+            {!isLoginPage && isLoggedIn && <Header isLoggedIn={isLoggedIn} />}
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </StyledComponentsRegistry>
   )
 }

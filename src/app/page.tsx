@@ -71,7 +71,7 @@ export default function LoginPage() {
             onChange={(e) => setUsername(e.target.value)}
           />
           <span className="highlight-span" />
-          <label className="lebal-email">User</label>
+          <label className="label-email">User</label>
         </div>
         <div className="container-1">
           <div className="group">
@@ -83,7 +83,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
             />
             <span className="highlight-span" />
-            <label className="lebal-email">Password</label>
+            <label className="label-email">Password</label>
           </div>
         </div>
         {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -99,7 +99,7 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height for vertical centering */
+  height: 100vh;
 
   .form {
     display: flex;
@@ -108,10 +108,10 @@ const StyledWrapper = styled.div`
     flex-direction: column;
     border: 1px solid white;
     padding: 40px;
-    background-color: black;
+    background-color: #000; /* fixo */
     border-radius: 20px;
     width: 100%;
-    max-width: 400px; /* Limit the width of the form */
+    max-width: 400px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
@@ -120,7 +120,7 @@ const StyledWrapper = styled.div`
     font-size: 24px;
     font-weight: bold;
     letter-spacing: 0.5px;
-    color: white;
+    color: #fff;
   }
 
   .group {
@@ -140,8 +140,8 @@ const StyledWrapper = styled.div`
     width: 100%;
     border: none;
     border-bottom: 1px solid #6c6c6c;
-    background: var(--input-bg);
-    color: var(--input-text);
+    background: #181818; /* fixo */
+    color: #fff;         /* fixo */
     transition: background 0.2s, color 0.2s;
   }
 
@@ -150,8 +150,8 @@ const StyledWrapper = styled.div`
     border-bottom-color: #42ff1c;
   }
 
-  .lebal-email {
-    color: var(--input-text);
+  .label-email {
+    color: #fff; /* fixo */
     opacity: 0.7;
     font-size: 18px;
     font-weight: normal;
@@ -162,8 +162,8 @@ const StyledWrapper = styled.div`
     transition: 0.2s ease all;
   }
 
-  .main-input:focus ~ .lebal-email,
-  .main-input:valid ~ .lebal-email {
+  .main-input:focus ~ .label-email,
+  .main-input:valid ~ .label-email {
     top: -20px;
     font-size: 14px;
     color: #42ff1c;
@@ -187,7 +187,6 @@ const StyledWrapper = styled.div`
     from {
       background: #42ff1c;
     }
-
     to {
       width: 100%;
     }
@@ -198,7 +197,7 @@ const StyledWrapper = styled.div`
     padding: 10px 20px;
     border-radius: 10px;
     width: 100%;
-    max-width: 200px; /* Limit the width of the button */
+    max-width: 200px;
     background-color: #42ff1c;
     color: #000;
     border: none;
@@ -207,6 +206,7 @@ const StyledWrapper = styled.div`
   }
 
   .submit:hover {
+  .submit:hover {lor: #36cc17;
     background-color: #36cc17;
   }
 `
